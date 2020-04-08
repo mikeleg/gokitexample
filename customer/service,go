@@ -1,0 +1,11 @@
+package customer
+
+import (
+	model "github.com/mikeleg/gokitexample/entity"
+	"context"
+	
+)
+
+type Service interface {
+	GetByID(ctx context.Context, id uint) (model.Customer, error)
+}
