@@ -1,11 +1,32 @@
 package customer
 
 import (
-	model "github.com/mikeleg/gokitexample/entity"
+	"github.com/go-kit/kit/log"
+	model "github.com/mikeleg/gokitexample/domain"
 	"context"
-	
 )
 
 type Service interface {
 	GetByID(ctx context.Context, id uint) (model.Customer, error)
+	GetAll(ctx context.Context) ([]model.Customer, error)
+}
+
+type customerService struct {
+	customerRepo    model.CustomerRepository
+	logger     log.Logger
+}
+
+func New(c model.CustomerRepository, logger log.Logger) customer.Service {
+	return &customerService {
+		customerRepo:    c,
+		logger:     logger,
+	}
+}
+
+func (cs *customerService) GetByID(ctx context.Context, id uint) (model.Customer, error) {
+	return nil,nil
+}
+
+func (cs *customerService) GetAll(ctx context.Context) ([]model.Customer, error) {
+	return [],nil
 }
