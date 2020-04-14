@@ -39,7 +39,8 @@ func main() {
 	}
 	cs := customer.NewCustomerService(db)
 
-	r.Handle("/api/customers", customer.MakeFetchAllCustomer(cs, nil)).Methods("GET")
+	r.Handle("/api/customers", customer.FetchAllCustomerHandelr(cs, nil)).Methods("GET")
+	r.Handle("/api/customer/{ID}", customer.FetchCustomerByIDHandler(cs, nil)).Methods("GET")
 
 	fmt.Println("listening on port ", *listenAddr)
 	printAllRoutes(r)

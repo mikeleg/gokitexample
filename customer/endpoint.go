@@ -19,7 +19,7 @@ func makeFetchAllCustomerEndpoint(svc CustomerService) endpoint.Endpoint {
 	}
 }
 
-func makeAddCommentEndpoint(svc CustomerService) endpoint.Endpoint {
+func makeFetchCustomerByIDEndpoint(svc CustomerService) endpoint.Endpoint {
 	return func(ctx context.Context, request interface{}) (interface{}, error) {
 		req := request.(GetCustomerByIDRequest)
 		customer, err := svc.FetchByID(ctx, req.ID)

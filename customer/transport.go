@@ -5,12 +5,14 @@ import (
 	"encoding/json"
 	"errors"
 	"net/http"
+	"strconv"
 
 	kitlog "github.com/go-kit/kit/log"
 	kithttp "github.com/go-kit/kit/transport/http"
+	"github.com/gorilla/mux"
 )
 
-func MakeFetchAllCustomer(cs CustomerService, logger kitlog.Logger) *kithttp.Server {
+func FetchAllCustomerHandelr(cs CustomerService, logger kitlog.Logger) *kithttp.Server {
 	return kithttp.NewServer(
 		makeFetchAllCustomerEndpoint(cs),
 		kithttp.NopRequestDecoder,
@@ -18,7 +20,25 @@ func MakeFetchAllCustomer(cs CustomerService, logger kitlog.Logger) *kithttp.Ser
 	)
 }
 
+func FetchCustomerByIDHandler(cs CustomerService, logger kitlog.Logger) *kithttp.Server {
+	return kithttp.NewServer(
+		makeFetchCustomerByIDEndpoint(cs),
+		decodeGetByIDRequest,
+		encodeResponse,
+	)
+}
+
 var errBadRoute = errors.New("bad route")
+
+func decodeGetByIDRequest(_ context.Context, r *http.Request) (request interface{}, err error) {
+	vars := mux.Vars(r)
+	id, ok := vars["ID"]
+	if !ok {
+		return nil, errBadRoute
+	}
+	intID, _ := strconv.Atoi(id)
+	return GetCustomerByIDRequest{ID: intID}, nil
+}
 
 type errorer interface {
 	error() error
