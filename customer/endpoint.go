@@ -26,6 +26,6 @@ func makeAddCommentEndpoint(svc CustomerService) endpoint.Endpoint {
 		if err != nil {
 			return nil, err
 		}
-		return CustomerResponse(*customer), nil
+		return CustomerResponse(customer), nil
 	}
 }

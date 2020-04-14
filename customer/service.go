@@ -15,8 +15,8 @@ type customerservice struct {
 	db *sqlx.DB
 }
 
-func NewCustomerService(db *sqlx.DB) Service {
-	return &service{
+func NewCustomerService(db *sqlx.DB) CustomerService {
+	return &customerservice{
 		db: db,
 	}
 }
@@ -26,7 +26,7 @@ func (s *customerservice) FetchByID(ctx context.Context, id int) (Customer, erro
 
 	err := s.db.Get(&customer, "SELECT * FROM customer where id=$", id)
 	if err != nil {
-		return nil, err
+		return customer, err
 	}
 
 	return customer, nil
