@@ -24,10 +24,12 @@ func NewCustomerService(db *sqlx.DB) CustomerService {
 func (s *customerservice) FetchByID(ctx context.Context, id int) (Customer, error) {
 	customer := Customer{}
 
-	err := s.db.Get(&customer, `SELECT * FROM customer where id = $1`, id)
+	row, err := s.db.Queryx(`SELECT * FROM customer where id = $1`, id)
 	if err != nil {
 		return customer, err
 	}
+
+	row.StructScan(&customer)
 
 	return customer, nil
 }
